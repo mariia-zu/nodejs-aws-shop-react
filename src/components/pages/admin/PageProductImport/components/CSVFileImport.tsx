@@ -26,22 +26,41 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   const uploadFile = async () => {
     console.log("uploadFile to", url);
 
-    // Get the presigned URL
-    const response = await axios({
-      method: "GET",
-      url,
-      params: {
-        name: encodeURIComponent(file!.name),
-      },
-    });
-    console.log("File to upload: ", file!.name);
-    console.log("Uploading to: ", response.data.signedUrl);
-    const result = await fetch(response.data.signedUrl, {
-      method: "PUT",
-      body: file,
-    });
-    console.log("Result: ", result);
-    setFile(undefined);
+    const authorization_token = localStorage.getItem("authorization_token");
+    if (!authorization_token) {
+      alert("Authorization token isn't found!");
+      return;
+    }
+    try {
+      const response = await axios({
+        method: "GET",
+        url,
+        params: {
+          name: encodeURIComponent(file!.name),
+        },
+      });
+
+      if (response.status === 401) {
+        alert("Unauthorized: Authorization header is not provided");
+        return;
+      }
+
+      if (response.status === 403) {
+        alert("Forbidden: Invalid token");
+        return;
+      }
+
+      console.log("File to upload: ", file!.name);
+      console.log("Uploading to: ", response.data.signedUrl);
+      const result = await fetch(response.data.signedUrl, {
+        method: "PUT",
+        body: file,
+      });
+      console.log("Result: ", result);
+      setFile(undefined);
+    } catch (error) {
+      alert("Unexpected error: " + error);
+    }
   };
   return (
     <Box>
