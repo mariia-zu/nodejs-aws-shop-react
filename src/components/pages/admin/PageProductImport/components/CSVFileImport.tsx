@@ -38,6 +38,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
         params: {
           name: encodeURIComponent(file!.name),
         },
+        headers: { Authorization: `Basic ${authorization_token}` },
       });
 
       if (response.status === 401) {
