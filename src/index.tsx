@@ -18,8 +18,8 @@ localStorage.setItem("authorization_token", import.meta.env.VITE_TOKEN);
 
 (async () => {
   // if (import.meta.env.DEV) {
-  const { worker } = await import("./mocks/browser");
-  await worker.start({ onUnhandledRequest: "bypass" });
+  // const { worker } = await import("./mocks/browser");
+  // await worker.start({ onUnhandledRequest: "bypass" });
   //}
   const container = document.getElementById("app");
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

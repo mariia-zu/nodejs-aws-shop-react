@@ -11,7 +11,6 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint --ignore-path .gitignore --fix src",
     "prettier": "prettier src --write",
-    "predeploy": "npm ci",
     "deploy": "npm run build && cd ./my-webapp-cdk && npm run deploy",
     "destroy": "cd ./my-webapp-cdk && cdk destroy --app \"npx ts-node bin/cdk.ts\""
   },
